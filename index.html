@@ -5,61 +5,31 @@
     <link href="/style.css" rel="stylesheet"/>
   </head> 
   <body>
-    <button id="wantMore">More</button>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-    <script src="/socket.io/socket.io.js"></script>
 
+    <div class="wrapper">
+    <aside>
+      <div> user props and profile</div>
+
+      <h1>Users</h1>
+    </aside>
+
+    <main>
+      <button id="wantMore">More</button>
+      <ul id="messages"></ul>
+      <form action="">
+        <input id="m" autocomplete="off" /><button>Send</button>
+      </form>
+    </main>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
       crossorigin="anonymous">
     </script>
-
-    <script>
-const wantMore = document.getElementById("wantMore")
-const putMsgs = itemObj => {
-  const {msg, createdAt} = itemObj
-  $("#messages").prepend(`<li>${msg}<span>${createdAt}</span></li>`)
-}
-// query receives messages like this
-// [newest, previous, previous...oldest]
-const getMsgs = (skip, limit) => {
-  //returns a promise, errors are catch
-  return fetch(`http://localhost:3000/messages/skip/${skip}/limit/${limit}`)
-    .then(data => data.json())
-    .then(items => {
-      items.forEach(
-      item => putMsgs(item)
-      )})
-}
-
-$(function () {
-  // $(document).ready(
-  getMsgs(0,10).catch(e => console.log(e))
-  wantMore.addEventListener("click", () => {
-      const msgLen = parseInt($("#messages").children().length)
-      console.log("clicked!", msgLen)
-      getMsgs(msgLen, msgLen+10)
-    })
-  const socket = io();
-  //socket.on('userdisconnect', data => console.log(data.msg) );
-  //socket.on('userconnect', data => console.log(data.msg) );
-  $('form').submit(function(e) {
-    e.preventDefault(); // prevents page reloading
-    socket.emit('chat message', { msg: $('#m').val(), createdAt:new Date() });
-    $('#m').val('');
-    return false;
-  });
-  
-  socket.on('chat message', data => {
-    const {msg, createdAt} = data
-    $("#messages").append(
-      `<li>${msg}<span>${createdAt}</span></li>`)
-})
-})
+    <script src="/mysocket.js">
     </script>
+
   </body>
 </html>

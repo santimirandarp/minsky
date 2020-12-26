@@ -31,24 +31,23 @@ app.get("/", (req, res) => res.sendFile(__dirname+"/index.html"))
 //allow the user to load previous messages
 app.get("/messages/skip/:skip/limit/:limit", (req, res) => {
   const { skip, limit } = req.params
-  console.log(skip, limit)
-  msgModel.find({ }, null, { //we set project to null
-    sort:{ createdAt:-1 },
-    skip:parseInt(skip),
-    limit:parseInt(limit)
-  }, (err, suc) => {
+  msgModel
+    .find({ })
+    .sort({ createdAt:-1 })
+    .skip(parseInt(skip))
+    .limit(parseInt(limit))
+    .exec((err, suc) => {
     if(err) return res.json({ msg:"error" })
     res.json(suc)
   })  
 })
-
 
 io.on('connection', socket => {
   //organized in "events"
   console.log("connection")
   // io is the "server"
   // when socket connects to server, we emit a message
-  io.emit( "userconnect", { msg:"new connection" } )
+  //io.emit( "userconnect", { msg:"new connection" } )
   socket.on('chat message', data => { 
     // save message
     const newMsg = new msgModel(data);
@@ -56,12 +55,12 @@ io.on('connection', socket => {
       if (err) console.log(err)
       console.log(suc, "saved!")
     })
-    // emit to all sockets
-   io.emit("chat message",  data);
+    // emit to all sockets but the emitter
+   socket.broadcast.emit("chat message",  data);
   })
-  socket.on('userdisconnect', () => {
-    io.emit("userdisconnect", { msg:"User left" }) 
-})
+  //socket.on('userdisconnect', () => {
+   // io.emit("userdisconnect", { msg:"User left" }) 
+//})
 
 })
 

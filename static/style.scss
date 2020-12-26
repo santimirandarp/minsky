@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing:
+  border-box;
+}
+
+body { 
+  color:white;
+  background: #000;
+  font: 13px Helvetica, Arial; 
+}
+
+.wrapper {
+  display:flex;
+  flex-direction:row;
+  height:100vh;
+}
+aside{flex-basis:25%;}
+main{
+position:relative;
+flex-basis:75%;
+}
+
+form {
+  color:black;
+  padding: 3px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display:flex;
+  flex-direction:row;
+  > * {color:black}
+  input { 
+    width:100%;
+    border: 0;
+    padding: 10px;
+  } 
+  button { 
+    flex-basis:5rem;
+    background: rgb(130, 224, 255); 
+    border: none; 
+    padding: 0.5rem 0; 
+} }
+
+#messages { list-style-type: none; 
+  li { 
+    padding: 5px 10px; 
+    &:nth-child(odd) { 
+      background: #444; 
+}}}
+
+#wantMore {
+  position:absolute;
+  top:0;
+  right:0;
+}
