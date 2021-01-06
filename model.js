@@ -6,7 +6,7 @@ const msgSchema = new Schema({
     type:String, required:true
   },
   createdAt:{
-    type:Date, required:true, index:true
+    type:Date, required:true, index:true, default:Date()
   }
 })
 
