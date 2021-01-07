@@ -1,7 +1,12 @@
+require("dotenv").config()
+const { uri, user, pass } = process.env
+
+
 // bidirectional comm. channel between server and client
 // ------------------tunnel---------------
 //        server <== push msgs ==> client
 // ------------------tunnel---------------
+
 
 const express = require("express")
 const app = express()
@@ -10,16 +15,14 @@ const http = require('http').createServer(app);
 
 const io = require('socket.io')(http);
 //some events handled by io
-//emitted using socket.emit()
+//io.emit(), socket.emit(), broadcast, socket.on
 
 const cors = require("cors")
+// const helmet = require("helmet")
+
 const mongoose = require("mongoose")
+const { findMessages, saveMessage } = require("./dbcrud")
 
-require("dotenv").config()
-const { uri, user, pass } = process.env
-
-
-const { msgModel } = require("./model")
 mongoose.connect(`${uri}`, {
   useNewUrlParser:true, //avoid dpr warn
   useUnifiedTopology:true, //avoid dpr warn
@@ -27,44 +30,46 @@ mongoose.connect(`${uri}`, {
   user:user,
   pass:pass
 })
-//deprecation warnings come diff mongoose v native driver
+
 
 app.use(cors())
 app.use(express.static("static"))
 app.get("/", (req, res) => res.sendFile(__dirname+"/index.html"))
 
-//allow the user to load previous messages
+//load previous messages
 app.get("/messages/:skip/:limit", (req, res) => {
   const { skip, limit } = req.params
-  msgModel
-    .find({ })
-    .sort({ createdAt:-1 })
-    .skip(parseInt(skip))
-    .limit(parseInt(limit))
-    .exec((err, doc) => {
-    return err ? 
-        res.status(500).json({ err:"Server Error" }): 
-        res.json(doc)
-  })  
-})
+  findMessages(skip, limit, (err, doc) => err ? res.status(500)
+      .json({ err: err.message }): 
+      res.json(doc)
+  )})
 
 io.on('connection', socket => {
   socket.emit("socketID", socket.id)
-  
-  socket.on('chat message', ({id, msg}) => { 
 
-    (new msgModel(msg)).save(function(err, suc){
+  socket.on('chat message', msg => { 
+    saveMessage(msg, (err, suc) => {
       if (err) console.log(err)
-      let msgId = suc._id 
-      console.log("socketID", id, "msgId", msgId)
-      socket.emit("message id", msgId)
+      socket.emit("message id", suc._id)
     })
-    
-    // emit to all sockets but the emitter
-   socket.broadcast.emit("chat message",  msg);
+    // all socks but the emiter
+    socket.broadcast.emit("chat message",  msg);
   })
+  
+  socket.on('delete message', 
+    deleteMessage(_id, (err, suc) => {
+      if (err) return console.log(err)
+      socket.emit("deleteMsg", suc)
+    socket.broadcast.emit("deleteMessage",  suc);
+  }))
 
-})
+  socket.on('update message', 
+    updateMessage({_id, msg}, (err, suc) => {
+      if (err) return console.log(err)
+      socket.emit("updateMessage", suc._id)
+    socket.broadcast.emit("updateMessage",  suc);
+  })
+)
 
 
 http.listen(3000);
