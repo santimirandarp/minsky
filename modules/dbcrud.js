@@ -16,9 +16,9 @@ const update = (id, msg, done) => msgModel.update( {_id:id}, {
   createdAt: Date()
 }, done)
 
-const del = (id, done) => msgModel(_id:id).deleteOne(done)
+const del = (id, done) => msgModel({_id:id}).deleteOne(done)
 
-export.findMessages = find
-export.saveMessage = save
-export.updateMessage = update
-export.deleteMessage = del
+exports.findMessages = find
+exports.saveMessage = save
+exports.updateMessage = update
+exports.deleteMessage = del

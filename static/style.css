@@ -18,6 +18,7 @@ body {
 
 aside {
   flex-basis: 25%;
+  border-right: 1px solid white;
 }
 
 main {
@@ -53,6 +54,8 @@ form button {
   list-style-type: none;
 }
 #messages li {
+  display: flex;
+  flex-direction: row;
   padding: 5px 10px;
 }
 #messages li:nth-child(odd) {
@@ -63,6 +66,30 @@ form button {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.dropdown {
+  margin-right: auto;
+  position: relative;
+  padding: 0.5rem;
+}
+.dropdown:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.dropdown .operations {
+  position: absolute;
+  display: none;
+  z-index: 999;
+}
+.dropdown .operations > .delete, .dropdown .operations .update {
+  padding: 0.5rem;
+}
+.dropdown .operations > .delete {
+  background-color: red;
+}
+.dropdown .operations > .update {
+  background-color: blue;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -16,7 +16,10 @@ body {
   flex-direction:row;
   height:100vh;
 }
-aside{flex-basis:25%;}
+aside{
+  flex-basis:25%;
+  border-right:1px solid white;
+}
 main{
 position:relative;
 flex-basis:75%;
@@ -45,6 +48,8 @@ form {
 
 #messages { list-style-type: none; 
   li { 
+    display:flex;
+    flex-direction:row;
     padding: 5px 10px; 
     &:nth-child(odd) { 
       background: #444; 
@@ -55,3 +60,22 @@ form {
   top:0;
   right:0;
 }
+
+.dropdown{
+  margin-right:auto;
+  position:relative;
+  padding:0.5rem;
+  &:hover{
+  cursor:pointer;
+  opacity:0.7;
+}
+  .operations {
+    position:absolute;
+    display:none;
+    z-index:999;
+  > .delete, .update {
+   padding:0.5rem;
+  }
+  > .delete{background-color:red}
+  > .update{background-color:blue}
+  }}
