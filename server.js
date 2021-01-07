@@ -8,13 +8,13 @@ const http = require('http').createServer(app);
 
 const io = require('socket.io')(http);
 //some events handled by io
+//route
+const loadOlderMsgs = require("./modules/loadOlderMsgs")
 
 const cors = require("cors")
 // const helmet = require("helmet")
-
 const mongoose = require("mongoose")
 const { 
-  findMessages, 
   saveMessage,
   deleteMessage,
   updateMessage } = require("./modules/dbcrud")
@@ -30,16 +30,12 @@ mongoose.connect(`${uri}`, {
 
 app.use(cors())
 app.use(express.static("static"))
+app.use(express.static("static/css"))
+
 app.get("/", (req, res) => res.sendFile(__dirname+"/index.html"))
 
 //load previous messages
-app.get("/messages/:skip/:limit", (req, res) => {
-  const { skip, limit } = req.params
-  findMessages(skip, limit, (err, doc) => err ? 
-      res.status(500)
-      .json({ err: err.message }): 
-      res.json(doc)
-  )})
+app.use("/messages", loadOlderMsgs)
 
 io.on('connection', socket => {
   socket.on('chat message', msg => { 
@@ -50,7 +46,7 @@ io.on('connection', socket => {
       return 0
   })})
   
-  socket.on('delete message', _id =>{
+  socket.on('delete message', _id => {
     deleteMessage(_id, (err, suc) => {
       if (err) return res.send("Try again")
       socket.emit("confirm", "this message was deleted")

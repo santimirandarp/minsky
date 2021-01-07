@@ -3,23 +3,15 @@ const prevMsgs = $('button#wantMore')
 const uri = 'http://localhost:3000'
 const deleteMsg = $('.deleteMsg')
 const updateMsg = $('.updateMsg')
-const dropDown = $('.dropdown')
 
 const dropDownElement = $(`
   <div class="dropdown">
-  <p>options</p>
+  <p class="options">options</p>
   <div class="operations">
   <p class="delete">Delete</p>
   <p class="update">Update</p>
   </div>
 </div>`)
-
-dropDown.click(e => {
- const display = dropDown.style.display 
- if( display=="" || display=="none" ){
-     return dropDown.style.display="visible"
-  } else { return dropDown.style.display="none" }
-})
 
 $(function () { // $(document).ready(
   const socket = io(); //connects to / origin
@@ -52,12 +44,16 @@ $(function () { // $(document).ready(
     msg = new Msg(msg, new Date())
     li = msg.toHTML()
     //for the sender, append right away.
+    li.attr("data-id", "")
     $("#messages").append(li)
     socket.emit('chat message', msg )
     $('#m').val('')
     socket.on("message id", id => { 
       li.attr("data-id", id)
-      li.append(dropDownElement)
+      const dropdown  = li.append(dropDownElement)
+      dropdown.click(e => {
+       return $('.operations').toggle()
+      })
     })
     return false
   });

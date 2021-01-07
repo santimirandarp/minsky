@@ -1,0 +1,13 @@
+@mixin flexcenter($direction:row){
+  display:flex;
+  flex-direction:$direction;
+}
+$bodyBg:black;
+$bodyC:white;
+$formC:black;
+$inputBg:white;
+$h1Color:orange;
+$formBtnBg:rgb(130, 224, 255);
+$liOddBg:#444; 
+$formHeight:3rem; 
+$fontStack:13px Helvetica, Arial; 
