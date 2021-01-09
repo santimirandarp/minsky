@@ -25,15 +25,15 @@
   > .operations {
     position:absolute;
     top:110%;
-    left:-1rem;
-    width:4;
-    height:5rem;
+    left:-3rem;
+    width:auto;
+    height:auto;
     overflow:auto;
     display:none;
     z-index:999;
   > .delete, .update {
    padding:0.5rem;
   }
-  > .delete{background-color:red}
-  > .update{background-color:blue}
+  > .delete{background-color:$delete }
+  > .update{background-color:$update }
   }}

@@ -2,12 +2,17 @@
   display:flex;
   flex-direction:$direction;
 }
+
+$formHeight:3rem; 
+
+// colors
 $bodyBg:black;
 $bodyC:white;
+
+$delete:#681010;
+$update:#3434a2;
 $formC:black;
+$liOddBg:#444; 
 $inputBg:white;
 $h1Color:orange;
 $formBtnBg:rgb(130, 224, 255);
-$liOddBg:#444; 
-$formHeight:3rem; 
-$fontStack:13px Helvetica, Arial; 

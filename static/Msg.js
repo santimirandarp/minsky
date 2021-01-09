@@ -1,19 +1,10 @@
-const dropdownElement = `
-  <div class="dropdown">
-  <p class="options">options</p>
-  <div class="operations">
-  <p class="delete">Delete</p>
-  <p class="update">Update</p>
-  </div>
-</div>`
-
 class Msg {
   constructor (msg, createdAt){
     this.msg = msg
     this.createdAt = createdAt
   }
   toHTML (own=false){
-  const dropDownElement = `
+  const dropdownElement = `
     <div class="dropdown">
     <p class="options">options</p>
     <div class="operations">
@@ -39,6 +30,7 @@ class Msg {
     msg = $("<span></span>").text(msg)
     return $(`<li data-id=${_id}>&nbsp;<span class="time">${createdAt}</span></li>`).prepend(msg)
   }
+
   static addToDOM (data, type="append") {
     type==="prepend" ?
     $("#messages").prepend(this.toHTML(data)):

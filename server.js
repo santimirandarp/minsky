@@ -45,11 +45,9 @@ io.on('connection', socket => {
   })})
   
   socket.on('delete message', _id => {
-    console.log("received")
     deleteMessage(_id, (err, suc) => {
-      if (err) return res.send("Try again")
-      socket.emit("confirm", "this message was deleted")
-      socket.broadcast.emit("delete message", {"id":_id});
+      if (err) return console.log(err)
+      io.emit("delete message", "This message was deleted");
       return 0
   })})
 
