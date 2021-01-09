@@ -4,14 +4,6 @@ const uri = 'http://localhost:3000'
 const deleteMsg = $('.deleteMsg')
 const updateMsg = $('.updateMsg')
 
-const dropDownElement = $(`
-  <div class="dropdown">
-  <p class="options">options</p>
-  <div class="operations">
-  <p class="delete">Delete</p>
-  <p class="update">Update</p>
-  </div>
-</div>`)
 
 $(function () { // $(document).ready(
   const socket = io(); //connects to / origin
@@ -40,24 +32,22 @@ $(function () { // $(document).ready(
        and enable + CRUD operations
     */
     e.preventDefault(); 
-    let li, msg = $('#m').val()
+    let dropdown, li, msg = $('#m').val()
     msg = new Msg(msg, new Date())
-    li = msg.toHTML()
+    li = msg.toHTML(own=true)
     //for the sender, append right away.
     li.attr("data-id", "")
     $("#messages").append(li)
     socket.emit('chat message', msg )
     $('#m').val('')
-    socket.on("message id", id => { 
-      li.attr("data-id", id)
-      const dropdown  = li.append(dropDownElement)
-      dropdown.click(e => {
-       return $('.operations').toggle()
+    dropdown = li.children('.dropdown')
+    dropdown.click( function (){
+      $(this).children('.operations').toggle()
       })
-    })
-    return false
+    dropdown.focusout( function (){
+      $(this).children('.operations').hide()
+      })
+    socket.on("message id", id => li.attr("data-id", id))
   });
-
-
   socket.on('chat message', data => Msg.addToDOM(data))
 })

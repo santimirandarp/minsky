@@ -1,15 +1,35 @@
+const dropdownElement = `
+  <div class="dropdown">
+  <p class="options">options</p>
+  <div class="operations">
+  <p class="delete">Delete</p>
+  <p class="update">Update</p>
+  </div>
+</div>`
+
 class Msg {
   constructor (msg, createdAt){
     this.msg = msg
     this.createdAt = createdAt
   }
-  toHTML (){
-    let createdAt = (new Date(this.createdAt))
+  toHTML (own=false){
+  const dropDownElement = `
+    <div class="dropdown">
+    <p class="options">options</p>
+    <div class="operations">
+    <p class="delete">Delete</p>
+    <p class="update">Update</p>
+    </div>
+  </div>`
+   let createdAt = (new Date(this.createdAt))
       .toTimeString()//improves the format
       .substr(0,5) //first 5 symbols (0,1,2,3,4)
-    let msg = $("<span></span>").text(this.msg)//ensure it's text
-    return $(`<li data-id=${this._id}>&nbsp;<span>${createdAt}</span></li>`).prepend(msg)
+   let msg = $("<span></span>").text(this.msg)//ensure it's text
+       msg = $(`<li data-id=${this._id}>&nbsp;<span>${createdAt}</span></li>`)
+   if(!own) return msg.prepend(msg)
+      return $(msg).append(dropdownElement)
   }
+
   static toHTML ({ msg, createdAt, _id }) {
     // pass object, builds list item.
     createdAt = (new Date(createdAt))
