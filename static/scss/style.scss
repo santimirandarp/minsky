@@ -1,13 +1,12 @@
 @use "resets";
 @use "variables" as *;
-//@use "fonts";
+@use "font";
 @use "messages";
 @use "form";
 
 body { 
   color:$bodyC;
   background: $bodyBg;
-  font: $fontStack;
   .wrapper {
     @include flexcenter;
     height:100vh;
@@ -33,4 +32,14 @@ aside{
   top:0;
   right:0;
 }
+
+span.time {
+opacity:0.6;
+margin-left:0.3rem;
+margin-bottom:-4px;
+align-self:end;
+}
+
+
+
 

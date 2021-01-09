@@ -25,9 +25,9 @@ class Msg {
       .toTimeString()//improves the format
       .substr(0,5) //first 5 symbols (0,1,2,3,4)
    let msg = $("<span></span>").text(this.msg)//ensure it's text
-       msg = $(`<li data-id=${this._id}>&nbsp;<span>${createdAt}</span></li>`)
-   if(!own) return msg.prepend(msg)
-      return $(msg).append(dropdownElement)
+       msg = $(`<li data-id=${this._id}>&nbsp;<span class="time">${createdAt}</span></li>`).prepend(msg)
+   if(!own) return msg
+   return msg.append(dropdownElement)
   }
 
   static toHTML ({ msg, createdAt, _id }) {
@@ -37,7 +37,7 @@ class Msg {
       .substr(0,5)
     //creates span, includes plain text on it
     msg = $("<span></span>").text(msg)
-    return $(`<li data-id=${_id}>&nbsp;<span>${createdAt}</span></li>`).prepend(msg)
+    return $(`<li data-id=${_id}>&nbsp;<span class="time">${createdAt}</span></li>`).prepend(msg)
   }
   static addToDOM (data, type="append") {
     type==="prepend" ?

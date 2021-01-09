@@ -6,12 +6,14 @@
   overflow:auto;
   li { 
     @include flexcenter;
-    padding: 0.5rem 0.8rem;
+    align-items:center;
+    padding: 0.5rem 2rem;
     &:nth-child(odd) { 
       background: $liOddBg;
 }}}
 
 .dropdown{
+  margin-bottom:0;
   margin-left:auto;
   position:relative;
   &:hover{

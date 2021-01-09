@@ -41,11 +41,13 @@ $(function () { // $(document).ready(
     socket.emit('chat message', msg )
     $('#m').val('')
     dropdown = li.children('.dropdown')
-    dropdown.click( function (){
+    dropdown.on("click", function (){
+      console.log(this)
       $(this).children('.operations').toggle()
       })
-    dropdown.focusout( function (){
-      $(this).children('.operations').hide()
+    dropdown.on("focusout", function (){
+      console.log(this)
+      $(this).children('.operations').toggle()
       })
     socket.on("message id", id => li.attr("data-id", id))
   });
