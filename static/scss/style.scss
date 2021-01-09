@@ -10,18 +10,15 @@ body {
   .wrapper {
     @include flexcenter;
     height:100vh;
-    overflow:auto;
   }
 }
 
-main{
-position:relative;
-flex-basis:75%;
-}
+main{ position:relative; flex-basis:75%; }
 
 aside{
   h1 { 
    color:$h1Color;
+   text-align:center;
  }
   flex-basis:25%;
   border-right:2px dotted $h1Color;
