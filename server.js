@@ -1,18 +1,19 @@
 require("dotenv").config()
 const { uri, user, pass } = process.env
 
+//http server
 const express = require("express")
 const app = express()
-const http = require('http').createServer(app);
-//set app as http-requests handler
+const http = require('http').createServer(app);//set app as httphandler
 
+//io server
 const io = require('socket.io')(http);
-//some events handled by io
-//route
+
+//routes
 const messages = require("./modules/messages")
 
 const cors = require("cors")
-// const helmet = require("helmet")
+//const helmet = require("helmet")
 const mongoose = require("mongoose")
 const { deleteMessage, saveMessage } = require("./modules/dbcrud")
 
@@ -26,8 +27,9 @@ mongoose.connect(`${uri}`, {
 
 
 app.use(cors())
-app.use(cors())
+//app.use(helmet())
 app.use(express.static("static"))
+app.use(express.static("static/js"))
 app.use(express.static("static/css"))
 
 app.get("/", (req, res) => res.sendFile(__dirname+"/index.html"))
@@ -36,6 +38,7 @@ app.get("/", (req, res) => res.sendFile(__dirname+"/index.html"))
 app.use("/messages", messages)
 
 io.on('connection', socket => {
+
   socket.on('chat message', msg => { 
     saveMessage(msg, (err, suc) => {
       if (err) return res.send("Msg not saved. Try again.")

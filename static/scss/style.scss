@@ -9,19 +9,21 @@ body {
   background: $bodyBg;
   .wrapper {
     @include flexcenter;
+    justify-content:space-around;
     height:100vh;
   }
 }
 
-main{ position:relative; flex-basis:75%; }
+main{ position:relative; width:75%; }
 
 aside{
   h1 { 
-   color:$h1Color;
+   color:$orange;
    text-align:center;
  }
-  flex-basis:25%;
-  border-right:2px dotted $h1Color;
+  width:20%;
+  box-shadow:1px 1px 1px rgba(0,0,0,0.5);
+  margin:0 auto;// h-centered
 }
 
 #wantMore {

@@ -8,6 +8,10 @@ input, button {
   border: none;
 }
 
+button {
+  cursor: pointer;
+}
+
 a {
   text-decoration: none;
 }
@@ -35,6 +39,7 @@ h1, h2, h3, h4, h5 {
 
 h1 {
   font-size: 3.052rem;
+  margin-top: 0;
 }
 
 h2 {
@@ -55,6 +60,10 @@ h5 {
 
 span.time {
   font-size: 0.7rem;
+}
+
+form button {
+  font-variant: small-caps;
 }
 
 #messages {
@@ -117,6 +126,7 @@ form input {
 }
 form button {
   flex-basis: 5rem;
+  background-color: rgba(225, 162, 46, 0.9);
 }
 
 body {
@@ -126,20 +136,22 @@ body {
 body .wrapper {
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
   height: 100vh;
 }
 
 main {
   position: relative;
-  flex-basis: 75%;
+  width: 75%;
 }
 
 aside {
-  flex-basis: 25%;
-  border-right: 2px dotted orange;
+  width: 20%;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  margin: 0 auto;
 }
 aside h1 {
-  color: orange;
+  color: #e1a22e;
   text-align: center;
 }
 

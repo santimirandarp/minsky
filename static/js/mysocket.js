@@ -30,14 +30,13 @@ $(function () { // $(document).ready(
     $('#m').val('')
 
     //LI interaction
-    dropdown = li.children('.dropdown')
-    options = dropdown.children('.options')
-    operations = dropdown.children('.operations')
-    del = operations.children('.delete')
+    options = li.find('.options')
+    del = options.find('.delete')
 
     del.click( function() {
       let li = $(this).closest("li")
       const _id = li.attr("data-id")
+      if(!li.children("em")) li.append("<em>DELETING...</em>")
       socket.emit("delete message", _id)
       socket.on("delete message", msg => li.html(`<em>${msg}</em>` )
       )})
@@ -47,5 +46,9 @@ $(function () { // $(document).ready(
 
       socket.on("message id", id => li.attr("data-id", id))
     });
-    socket.on('chat message', data => Msg.addToDOM(data))
+    socket.on('chat message', data => { 
+      Msg.addToDOM(data)
+      //scroll to 0 from the bottom.
+      $("#messages").scrollTo(0, $("#messages")[0].scrollHeight);
+    })
   })
