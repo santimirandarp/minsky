@@ -53,5 +53,7 @@ class Msg {
       .catch(err => console.log(err))
   }
   static getLastMsgs (uri) { return this.getMsgs(uri, 0,10) }
+  
+
 }
 

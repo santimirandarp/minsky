@@ -1,8 +1,6 @@
 // consistent use of JQuery
 const prevMsgs = $('button#wantMore')
 const uri = 'http://localhost:3000'
-const deleteMsg = $('.deleteMsg')
-const updateMsg = $('.updateMsg')
 
 
 $(function () { // $(document).ready(
@@ -15,16 +13,6 @@ $(function () { // $(document).ready(
     Msg.getMsgs(uri, msgLen, msgLen+10)
   })
 
-  deleteMsg.click( e => {
-     e.preventDefault()
-     console.log(e)
-  })
-
-  updateMsg.click( e => {
-     e.preventDefault()
-     console.log(e)
-  })
-
   $('form').submit(function(e) {
     /* 
        on input submit append msg to DOM and 
@@ -32,24 +20,32 @@ $(function () { // $(document).ready(
        and enable + CRUD operations
     */
     e.preventDefault(); 
-    let dropdown, li, msg = $('#m').val()
+    let dropdwn, operations, options, del, li, msg = $('#m').val()
+    
+    //Append Msg on Submit
     msg = new Msg(msg, new Date())
     li = msg.toHTML(own=true)
     //for the sender, append right away.
-    li.attr("data-id", "")
     $("#messages").append(li)
     socket.emit('chat message', msg )
     $('#m').val('')
+
+    //LI interaction
     dropdown = li.children('.dropdown')
-    dropdown.on("click", function (){
-      console.log(this)
-      $(this).children('.operations').toggle()
-      })
-    dropdown.on("focusout", function (){
-      console.log(this)
-      $(this).children('.operations').toggle()
-      })
+    options = dropdown.children('.options')
+    operations = dropdown.children('.operations')
+    del = operations.children('.delete')
+
+    del.click( function() {
+      const _id =  $(this).closest("li").attr("data-id")
+      socket.emit("delete message", _id)
+      console.log("emited")
+    })
+
+    options.click(() => operations.toggle() )
+    operations.focusout(() => operations.hide() )
+
     socket.on("message id", id => li.attr("data-id", id))
-  });
-  socket.on('chat message', data => Msg.addToDOM(data))
-})
+    });
+    socket.on('chat message', data => Msg.addToDOM(data))
+  })
